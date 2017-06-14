@@ -177,6 +177,15 @@
              ;; Mark test as committed for this subject's test-session
              (car/psetex committed?-tkey ttl-ms 1)))))))
 
+  ;; Secondary, non arguments destructing, multiply test forms commit call pattern.
+  ;; Used by signular call form stated above, in case multiply scores are passed as tail argument pairs,
+  ;; to `commit!` in following form  :
+  ;;  `:formId1 scoreValue1 :formId2 scoreValue2`.
+  ;;
+  ;; See docsstring for useage example.
+  ;
+  ;; [`clojure.core.defn' documentation](https://clojuredocs.org/clojure.core/defn#example-542692cbc026201cdc326bd6)
+
   ([config ts-id test-id value & id-value-pairs]
      (doseq [[id v] (partition 2 (into [test-id value] id-value-pairs))]
        (commit! config ts-id id v))))
